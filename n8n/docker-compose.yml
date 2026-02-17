@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  n8n:
+    image: n8nio/n8n:latest # <--- Actualización total para soporte de IA moderno
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=${HOST}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - NODE_ENV=production
+      - WEBHOOK_URL=https://${HOST}/
+      - GENERIC_TIMEZONE=America/Santiago
+    volumes:
+      - n8n_data_v2:/home/node/.n8n # <--- Nuevo volumen para instalación limpia
+    networks:
+      - toxiro-net
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    restart: always
+    ports:
+      - "6334:6333" # Puerto externo 6334 para evitar conflictos
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - toxiro-net
+
+networks:
+  toxiro-net:
+    driver: bridge
+
+volumes:
+  n8n_data_v2: # <--- Declaración del nuevo volumen
+  qdrant_data:

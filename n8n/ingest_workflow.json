@@ -1,0 +1,175 @@
+{
+    "name": "Toxiro Knowledge Ingest [Final Reset]",
+    "nodes": [
+        {
+            "parameters": {},
+            "id": "manual-trigger-id",
+            "name": "When clicking \"Execute Workflow\"",
+            "type": "n8n-nodes-base.manualTrigger",
+            "typeVersion": 1,
+            "position": [
+                0,
+                240
+            ]
+        },
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "ingest",
+                "options": {}
+            },
+            "name": "Webhook Ingest",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 1,
+            "position": [
+                0,
+                400
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "return {\n  text: `SOMOS TOXIRO DIGITAL - CONOCIMIENTO OFICIAL\\n--------------------------------------\\nNUESTRA IDENTIDAD:\\nEn Toxiro Digital somos una agencia de ingeniería de software e infraestructura privada. Nuestra filosofía es \\\"No alquiles tu tecnología, sé dueño de ella\\\". Ayudamos a las empresas a salir del modelo de costos ocultos de las licencias SaaS y las llevamos hacia activos de negocio propios.\\n\\nNUESTRO EQUIPO: Estamos dirigidos por un Senior Management con más de 20 años de experiencia técnica.\\n\\nNUESTRAS SOLUCIONES:\\n1. Automatización & IA: Utilizamos n8n y modelos de lenguaje para eliminar tu trabajo manual repetitivo conectando tus CRM, ERP y Marketing.\\n2. Software a Medida: Desarrollamos tus Backends robustos en Python (FastAPI/Django) diseñados para flujos de trabajo específicos.\\n3. Infraestructura Gestionada: Creamos tu propia nube privada segura, aislada y de alto rendimiento.\\n\\nCAPACIDADES TÉCNICAS (Stack Tecnológico):\\n- Infraestructura (DevOps): Gestionamos VPS Ubuntu, Docker, Dokploy, SSL y Traefik.\\n- Backend: Somos expertos en Python, FastAPI, Django y PostgreSQL.\\n- Automatización: Somos especialistas en n8n, OpenAI, Anthropic y Typebot.\\n\\nLlamado a la Acción (CTA):\\nOfrecemos un Diagnóstico Gratuito para auditar flujos de trabajo.` \n};"
+            },
+            "name": "Prepare Document",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                400,
+                240
+            ]
+        },
+        {
+            "parameters": {
+                "model": "text-embedding-3-small",
+                "options": {}
+            },
+            "name": "OpenAI Embeddings",
+            "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+            "typeVersion": 1,
+            "position": [
+                600,
+                450
+            ],
+            "credentials": {
+                "openAiApi": {
+                    "id": "YOUR_OPENAI_CREDENTIAL_ID",
+                    "name": "OpenAI account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "mode": "insert",
+                "qdrantCollection": {
+                    "__rl": true,
+                    "value": "toxiro_kb_final",
+                    "mode": "list"
+                },
+                "options": {}
+            },
+            "name": "Qdrant Vector Store",
+            "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+            "typeVersion": 1.3,
+            "position": [
+                800,
+                240
+            ],
+            "credentials": {
+                "qdrantApi": {
+                    "id": "YOUR_QDRANT_CREDENTIAL_ID",
+                    "name": "Qdrant account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "options": {}
+            },
+            "name": "Recursive Character Text Splitter",
+            "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+            "typeVersion": 1,
+            "position": [
+                1000,
+                600
+            ]
+        },
+        {
+            "parameters": {},
+            "name": "Default Data Loader",
+            "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+            "typeVersion": 1,
+            "position": [
+                950,
+                450
+            ]
+        }
+    ],
+    "connections": {
+        "When clicking \"Execute Workflow\"": {
+            "main": [
+                [
+                    {
+                        "node": "Prepare Document",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Webhook Ingest": {
+            "main": [
+                [
+                    {
+                        "node": "Prepare Document",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Prepare Document": {
+            "main": [
+                [
+                    {
+                        "node": "Qdrant Vector Store",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "OpenAI Embeddings": {
+            "ai_embedding": [
+                [
+                    {
+                        "node": "Qdrant Vector Store",
+                        "type": "ai_embedding",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Default Data Loader": {
+            "ai_document": [
+                [
+                    {
+                        "node": "Qdrant Vector Store",
+                        "type": "ai_document",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Recursive Character Text Splitter": {
+            "ai_textSplitter": [
+                [
+                    {
+                        "node": "Default Data Loader",
+                        "type": "ai_textSplitter",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}

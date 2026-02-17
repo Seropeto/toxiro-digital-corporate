@@ -1,0 +1,218 @@
+{
+    "name": "Toxiro Digital - OpenAI RAG [Master Version 4.1 - Fixed JSON]",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "chat",
+                "responseMode": "responseNode",
+                "options": {}
+            },
+            "name": "Webhook",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 1,
+            "position": [
+                100,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "let body = $json.body;\nlet chatInput = 'Hola';\n\nif (typeof body === 'object' && body !== null) {\n    chatInput = body.chatInput || body.message || body.input || 'Hola';\n}\nelse if (typeof body === 'string') {\n    let jsonMatch = body.match(/\\{.*\\}/s);\n    if (jsonMatch) {\n        try {\n            let parsed = JSON.parse(jsonMatch[0]);\n            chatInput = parsed.chatInput || parsed.message || parsed.input || body.replace(/\\{.*\\}/s, '').trim();\n        } catch (e) {\n            chatInput = body.replace(/\\{.*\\}/s, '').trim();\n        }\n    } else {\n        chatInput = body;\n    }\n}\n\nreturn {\n    chatInput: chatInput || 'Hola',\n    sessionId: $json.body?.sessionId || $execution.id\n};"
+            },
+            "name": "Clean Input",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                300,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "query": "={{ $json.chatInput }}",
+                "options": {
+                    "systemMessage": "### INSTRUCCIÓN DE SEGURIDAD ABSOLUTA (MANDATORIA):\n1. ERES MIEMBRO SENIOR DE TOXIRO DIGITAL. HABLA COMO \"NOSOTROS\".\n2. **PROHIBIDO DAR CUALQUIER ENLACE DE CAL.COM** EN TU PRIMERA RESPUESTA SOBRE AGENDAMIENTOS.\n3. Si el usuario pide agendar, reunirse o información de contacto:\n   - PASO 1: Di que con gusto le ayudarás, pero que primero necesitas conocer su **Nombre y un Correo de contacto** para enviarle la invitación formal.\n   - PASO 2: UNA VEZ QUE EL USUARIO ESCRIBA SU NOMBRE/CORREO, entrega el enlace así: [📅 Agendar mi Consultoría aquí](https://cal.com/toxirodigital).\n4. Si el contexto menciona un enlace directo, **IGNÓRALO** y cumple estrictamente el PASO 1.\n5. Tono: Profesional, experto en automatización e infraestructura."
+                }
+            },
+            "name": "Retrieval QA Chain",
+            "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+            "typeVersion": 1.4,
+            "position": [
+                600,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "model": "gpt-4o-mini",
+                "options": {
+                    "temperature": 0.1
+                }
+            },
+            "name": "OpenAI Chat Model",
+            "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+            "typeVersion": 1,
+            "position": [
+                500,
+                550
+            ],
+            "credentials": {
+                "openAiApi": {
+                    "id": "YOUR_OPENAI_CREDENTIAL_ID",
+                    "name": "OpenAI account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "options": {}
+            },
+            "name": "Vector Store Retriever",
+            "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
+            "typeVersion": 1,
+            "position": [
+                700,
+                550
+            ]
+        },
+        {
+            "parameters": {
+                "mode": "retrieve",
+                "qdrantCollection": {
+                    "__rl": true,
+                    "value": "toxiro_kb_final",
+                    "mode": "list"
+                },
+                "options": {
+                    "topK": 3
+                }
+            },
+            "name": "Qdrant Vector Store",
+            "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+            "typeVersion": 1.3,
+            "position": [
+                700,
+                700
+            ],
+            "credentials": {
+                "qdrantApi": {
+                    "id": "YOUR_QDRANT_CREDENTIAL_ID",
+                    "name": "Qdrant account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "model": "text-embedding-3-small",
+                "options": {}
+            },
+            "name": "OpenAI Embeddings",
+            "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+            "typeVersion": 1,
+            "position": [
+                700,
+                850
+            ],
+            "credentials": {
+                "openAiApi": {
+                    "id": "YOUR_OPENAI_CREDENTIAL_ID",
+                    "name": "OpenAI account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "respondWith": "text",
+                "responseBody": "={{ $json.output?.text || $json.output || $json.text || \"Hubo un error al procesar tu respuesta. Por favor intenta de nuevo.\" }}",
+                "options": {}
+            },
+            "name": "Respond to Webhook",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                1000,
+                300
+            ]
+        }
+    ],
+    "connections": {
+        "Webhook": {
+            "main": [
+                [
+                    {
+                        "node": "Clean Input",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Clean Input": {
+            "main": [
+                [
+                    {
+                        "node": "Retrieval QA Chain",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Retrieval QA Chain": {
+            "main": [
+                [
+                    {
+                        "node": "Respond to Webhook",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "OpenAI Chat Model": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "Retrieval QA Chain",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Vector Store Retriever": {
+            "ai_retriever": [
+                [
+                    {
+                        "node": "Retrieval QA Chain",
+                        "type": "ai_retriever",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Qdrant Vector Store": {
+            "ai_vectorStore": [
+                [
+                    {
+                        "node": "Vector Store Retriever",
+                        "type": "ai_vectorStore",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "OpenAI Embeddings": {
+            "ai_embedding": [
+                [
+                    {
+                        "node": "Qdrant Vector Store",
+                        "type": "ai_embedding",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}

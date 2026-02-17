@@ -1,0 +1,196 @@
+{
+    "name": "Toxiro Digital - Lightweight RAG [Perfect Connections]",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "chat",
+                "responseMode": "responseNode",
+                "options": {}
+            },
+            "name": "Webhook",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 1,
+            "position": [
+                100,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "let rawData = $json.body;\nlet chatInput = 'Hola';\nlet sessionId = $execution.id;\n\nif (typeof rawData === 'string') {\n  try {\n    let parsed = JSON.parse(rawData);\n    chatInput = parsed.chatInput || parsed.message || rawData;\n    sessionId = parsed.sessionId || sessionId;\n  } catch (e) {\n    chatInput = rawData;\n  }\n} else if (typeof rawData === 'object') {\n  chatInput = rawData.chatInput || rawData.message || 'Hola';\n  sessionId = rawData.sessionId || sessionId;\n}\n\nreturn {\n  chatInput,\n  sessionId\n};"
+            },
+            "name": "Clean Input",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                300,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "mode": "retrieve",
+                "qdrantCollection": {
+                    "__rl": true,
+                    "value": "toxiro_knowledge",
+                    "mode": "list"
+                },
+                "options": {
+                    "topK": 3
+                }
+            },
+            "name": "Qdrant Search",
+            "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+            "typeVersion": 1.3,
+            "position": [
+                500,
+                300
+            ],
+            "credentials": {
+                "qdrantApi": {
+                    "id": "YOUR_QDRANT_CREDENTIAL_ID",
+                    "name": "Qdrant account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "options": {}
+            },
+            "name": "Google Gemini Embeddings",
+            "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                420,
+                550
+            ],
+            "credentials": {
+                "googleGeminiApi": {
+                    "id": "YOUR_GEMINI_CREDENTIAL_ID",
+                    "name": "Google Gemini account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "={{ $node[\"Clean Input\"].json.chatInput }}",
+                "options": {
+                    "systemMessage": "Eres el Asistente Experto de Toxiro Digital. \n\nInstrucciones:\n1. Responde de forma profesional y directa.\n2. Usa la información del CONTEXTO para responder.\n3. Si no encuentras la respuesta en el contexto, sugiere agendar en https://cal.com/toxirodigital.\n\nCONTEXTO:\n{{ $items().map(i => i.json.pageContent).join('\\n\\n') }}"
+                }
+            },
+            "name": "Basic LLM Chain",
+            "type": "@n8n/n8n-nodes-langchain.chainLlm",
+            "typeVersion": 1.4,
+            "position": [
+                750,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "modelName": "models/gemini-1.5-flash",
+                "options": {}
+            },
+            "name": "Google Gemini Model",
+            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                720,
+                550
+            ],
+            "credentials": {
+                "googleGeminiApi": {
+                    "id": "YOUR_GEMINI_CREDENTIAL_ID",
+                    "name": "Google Gemini account"
+                }
+            },
+            "retryOnFail": true,
+            "maxRetries": 3,
+            "waitBetweenRetries": 5000
+        },
+        {
+            "parameters": {
+                "respondWith": "text",
+                "responseBody": "={{ $json.text }}",
+                "options": {}
+            },
+            "name": "Respond to Webhook",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                1000,
+                300
+            ]
+        }
+    ],
+    "connections": {
+        "Webhook": {
+            "main": [
+                [
+                    {
+                        "node": "Clean Input",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Clean Input": {
+            "main": [
+                [
+                    {
+                        "node": "Qdrant Search",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Qdrant Search": {
+            "main": [
+                [
+                    {
+                        "node": "Basic LLM Chain",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Basic LLM Chain": {
+            "main": [
+                [
+                    {
+                        "node": "Respond to Webhook",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Google Gemini Embeddings": {
+            "ai_embedding": [
+                [
+                    {
+                        "node": "Qdrant Search",
+                        "type": "ai_embedding",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Google Gemini Model": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "Basic LLM Chain",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}

@@ -1,0 +1,106 @@
+{
+  "name": "Toxiro AI Assistant (Final)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chat",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        380,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {
+          "systemInstruction": "Eres el Asistente Virtual IA de **Toxiro Digital**. Tu objetivo es responder dudas sobre infraestructura self-hosted y agendar reuniones."
+        }
+      },
+      "name": "Google Gemini Chat Model",
+      "type": "n8n-nodes-base.googleGeminiChatModel",
+      "typeVersion": 1,
+      "position": [
+        580,
+        440
+      ],
+      "credentials": {
+        "googleGeminiApi": {
+          "id": "YOUR_GEMINI_CREDENTIAL_ID",
+          "name": "Google Gemini account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.pregunta || $json.body.chatInput || $json.body }}",
+        "options": {
+          "systemMessage": "Eres el Asistente Virtual IA de **Toxiro Digital**, una consultora de ingeniería de software e infraestructura privada.\n\n**Tu Misión:**\nAyudar a dueños de negocios y gerentes a entender cómo dejar de \"alquilar\" su tecnología (SaaS) y pasar a ser dueños de ella (Self-Hosted).\n\n**Nuestros Servicios:**\n1. Infraestructura Self-Hosted.\n2. Automatización & IA.\n3. Desarrollo a Medida.\n\n**Links de Interés:**\n- Agendar: https://cal.com/toxirodigital\n- Email: contacto@toxirodigital.cloud"
+        }
+      },
+      "name": "Basic LLM Chain",
+      "type": "n8n-nodes-base.basicLlmChain",
+      "typeVersion": 1,
+      "position": [
+        600,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"fuente\": \"Gemini IA\",\n  \"texto_respuesta\": \"{{ $json.text }}\"\n}",
+        "options": {}
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        840,
+        240
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

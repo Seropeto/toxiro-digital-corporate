@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Toxiro Digital | Infraestructura Privada & Automatización</title>
+    <meta name="description"
+        content="Ingeniería de software y servidores VPS self-hosted. Automatización de procesos con n8n e IA. No alquiles tu tecnología, sé dueño de ella.">
+    <meta name="keywords" content="VPS, Dokploy, n8n, Automatización, Python, Docker, Consultoría TI, Self-Hosting">
+    <meta name="author" content="Toxiro Digital">
+
+    <link rel="icon" href="Logo Azul.jpg" type="image/jpeg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toxirodigital.cloud/">
+    <meta property="og:title" content="Toxiro Digital | Infraestructura Privada & Automatización">
+    <meta property="og:description"
+        content="Ingeniería de software y servidores VPS self-hosted. Automatización de procesos con n8n e IA. No alquiles tu tecnología, sé dueño de ella.">
+    <meta property="og:image" content="Imagen 3.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toxirodigital.cloud/">
+    <meta property="twitter:title" content="Toxiro Digital | Infraestructura Privada & Automatización">
+    <meta property="twitter:description"
+        content="Ingeniería de software y servidores VPS self-hosted. Automatización de procesos con n8n e IA. No alquiles tu tecnología, sé dueño de ella.">
+    <meta property="twitter:image" content="Imagen 3.png">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-bg {
+            background: linear-gradient(rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1558494949-ef526b0042a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Animación suave para el botón de WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #20ba5a;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800">
+
+    <nav class="bg-[#004e92] shadow-lg fixed w-full z-50 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-24 items-center">
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo(0,0)">
+                    <div class="relative">
+                        <i
+                            class="fas fa-layer-group text-blue-200 text-3xl group-hover:text-white transition transform group-hover:scale-110 duration-300"></i>
+                        <!-- Decorative dot -->
+                        <div
+                            class="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full border-2 border-[#004e92]">
+                        </div>
+                    </div>
+                    <div class="flex flex-col -space-y-1">
+                        <span class="text-xl font-bold text-white tracking-widest uppercase">Toxiro</span>
+                        <span
+                            class="text-[0.65rem] text-blue-200 font-semibold tracking-[0.2em] uppercase text-right">Digital</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#filosofia"
+                        class="text-blue-100 hover:text-white px-3 py-2 text-sm font-medium transition">Filosofía</a>
+                    <a href="#soluciones"
+                        class="text-blue-100 hover:text-white px-3 py-2 text-sm font-medium transition">Soluciones</a>
+                    <a href="#capacidades"
+                        class="text-blue-100 hover:text-white px-3 py-2 text-sm font-medium transition">Tecnología</a>
+                    <a href="https://cal.com/toxirodigital" target="_blank" rel="noopener noreferrer"
+                        data-cal-link="toxirodigital"
+                        class="bg-white text-[#004e92] px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-blue-50 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        Diagnóstico Gratuito
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-bg h-screen flex items-center justify-center text-center px-4 relative">
+        <div class="max-w-5xl mx-auto pt-32">
+
+            <div
+                class="inline-block bg-blue-600/90 backdrop-blur-md border border-blue-400/50 rounded-full px-6 py-2 mb-10 shadow-lg">
+                <span class="text-white text-xs font-bold tracking-widest uppercase shadow-sm">Ingeniería de Software &
+                    Infraestructura Privada</span>
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight tracking-tight" data-aos="fade-up"
+                data-aos-duration="1000">
+                No alquiles tu tecnología.<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Sé dueño de
+                    ella.</span>
+            </h1>
+            <p class="text-xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed" data-aos="fade-up"
+                data-aos-delay="200">
+                Transformamos procesos complejos en activos de negocio rentables. Sin costos ocultos de licencias SaaS.
+                Control total de tus datos.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4" data-aos="fade-up" data-aos-delay="400">
+                <a href="https://cal.com/toxirodigital" target="_blank" rel="noopener noreferrer"
+                    data-cal-link="toxirodigital"
+                    class="bg-blue-600 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-blue-700 transition shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+                    Agenda una Reunión
+                </a>
+                <a href="#capacidades"
+                    class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-white/20 transition hover:bg-white/10">
+                    Ver Capacidades
+                </a>
+            </div>
+
+            <p class="mt-12 text-xs text-slate-400 uppercase tracking-widest font-semibold">
+                Dirigidos por Senior Management • +20 Años de Experiencia
+            </p>
+        </div>
+    </header>
+
+    <section id="filosofia" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Ingeniería Real para Negocios Reales</h2>
+                <p class="text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">
+                    A diferencia de las agencias que se enfocan solo en la estética, en <span
+                        class="font-semibold text-blue-600">Toxiro Digital</span> nos enfocamos en el "motor" de tu
+                    negocio.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-stretch">
+                <div class="bg-slate-50 p-10 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition"
+                    data-aos="fade-right">
+                    <div
+                        class="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6 text-2xl">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Infraestructura Self-Hosted</h3>
+                    <p class="text-slate-600 mb-6 leading-relaxed">
+                        "No alquiles tu tecnología". Priorizamos soluciones de código abierto desplegadas en servidores
+                        privados bajo tu control.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-slate-700 font-medium"><i
+                                class="fas fa-check-circle text-blue-600 mr-3"></i> Propiedad total del dato</li>
+                        <li class="flex items-center text-slate-700 font-medium"><i
+                                class="fas fa-check-circle text-blue-600 mr-3"></i> Ahorro masivo en licencias SaaS</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-50 p-10 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition"
+                    data-aos="fade-left">
+                    <div
+                        class="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6 text-2xl">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Socio Tecnológico (CTO Externo)</h3>
+                    <p class="text-slate-600 mb-6 leading-relaxed">
+                        Combinamos la robustez de la ingeniería de software tradicional con la agilidad de la IA
+                        moderna. No somos proveedores, somos tu dirección técnica.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-slate-700 font-medium"><i
+                                class="fas fa-check-circle text-blue-600 mr-3"></i> Gestión de Proyectos Senior</li>
+                        <li class="flex items-center text-slate-700 font-medium"><i
+                                class="fas fa-check-circle text-blue-600 mr-3"></i> Relación a largo plazo</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="soluciones" class="py-24 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-blue-600 opacity-10 blur-3xl"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-20">
+                <span class="text-blue-400 font-bold tracking-wider uppercase text-sm">Qué Hacemos</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-2">Soluciones de Negocio</h2>
+                <p class="mt-4 text-xl text-slate-400">No vendemos código, vendemos activos.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 hover:border-blue-500/50 transition"
+                    data-aos="zoom-in" data-aos-delay="100">
+                    <div
+                        class="w-12 h-12 bg-blue-600/20 text-blue-400 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-robot text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Automatización & IA</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Eliminamos el trabajo manual repetitivo.
+                        Conectamos CRM, ERP y Marketing.</p>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 hover:border-blue-500/50 transition">
+                    <div
+                        class="w-12 h-12 bg-blue-600/20 text-blue-400 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-code text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Software a Medida</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Construimos la pieza que falta. Backends robustos
+                        diseñados para tu flujo.</p>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 hover:border-blue-500/50 transition">
+                    <div
+                        class="w-12 h-12 bg-blue-600/20 text-blue-400 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-cloud text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Infraestructura Gestionada</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Tu propia nube privada. Segura, aislada y de alto
+                        rendimiento.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="capacidades" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span
+                    class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Credenciales</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-4">Capacidades Técnicas</h2>
+                <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+                    Un perfil Senior, Full-Stack y orientado a Negocio. Nuestra "Caja de Herramientas" para escalar tu
+                    empresa.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <div class="bg-slate-50 p-8 rounded-xl border border-slate-200 hover:shadow-lg transition">
+                    <h3 class="font-bold text-lg text-slate-900 mb-4 flex items-center">
+                        <i class="fas fa-server text-blue-600 mr-3"></i> Infraestructura (DevOps)
+                    </h3>
+                    <ul class="space-y-3 text-sm text-slate-600">
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> <span>Gestión
+                                de VPS Privados (Ubuntu).</span></li>
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> <span>Docker
+                                & Docker Compose.</span></li>
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Orquestación con <strong>Dokploy</strong>.</span>
+                        </li>
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Seguridad SSL & Traefik.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-50 p-8 rounded-xl border border-slate-200 hover:shadow-lg transition">
+                    <h3 class="font-bold text-lg text-slate-900 mb-4 flex items-center">
+                        <i class="fas fa-terminal text-blue-600 mr-3"></i> Backend & APIs
+                    </h3>
+                    <ul class="space-y-3 text-sm text-slate-600">
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span><strong>Python (Experto)</strong> & Node.js.</span>
+                        </li>
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Frameworks: FastAPI y Django.</span>
+                        </li>
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> <span>APIs
+                                RESTful seguras.</span></li>
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> <span>Bases
+                                de Datos SQL (PostgreSQL).</span></li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-50 p-8 rounded-xl border border-slate-200 hover:shadow-lg transition">
+                    <h3 class="font-bold text-lg text-slate-900 mb-4 flex items-center">
+                        <i class="fas fa-bolt text-blue-600 mr-3"></i> Automatización & IA
+                    </h3>
+                    <ul class="space-y-3 text-sm text-slate-600">
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Orquestación avanzada en <strong>n8n</strong>.</span>
+                        </li>
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Integración OpenAI (GPT-4) & Anthropic.</span>
+                        </li>
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Chatbots (Typebot, WhatsApp API).</span>
+                        </li>
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Procesos ETL de Datos.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-50 p-8 rounded-xl border border-slate-200 hover:shadow-lg transition">
+                    <h3 class="font-bold text-lg text-slate-900 mb-4 flex items-center">
+                        <i class="fas fa-plug text-blue-600 mr-3"></i> Integraciones
+                    </h3>
+                    <ul class="space-y-3 text-sm text-slate-600">
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> <span>CRM:
+                                HubSpot, Salesforce, Odoo.</span></li>
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> <span>Google
+                                Workspace APIs & Slack.</span></li>
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>E-Commerce & Pasarelas de pago.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-50 p-8 rounded-xl border border-slate-200 hover:shadow-lg transition">
+                    <h3 class="font-bold text-lg text-slate-900 mb-4 flex items-center">
+                        <i class="fas fa-briefcase text-blue-600 mr-3"></i> Dirección de Proyectos
+                    </h3>
+                    <ul class="space-y-3 text-sm text-slate-600">
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Levantamiento de Requerimientos.</span>
+                        </li>
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Estrategia "Build vs Buy".</span>
+                        </li>
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> <span>Gestión
+                                Ágil (Jira/ClickUp).</span></li>
+                        <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Migración de Datos Legacy.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-100 pt-16">
+                <div class="text-center mb-10">
+                    <h3 class="text-2xl font-bold text-slate-900">Nuestra "Caja de Herramientas"</h3>
+                    <p class="text-slate-500 mt-2">Tecnologías probadas para soluciones escalables</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div
+                        class="bg-slate-50 rounded-xl border border-slate-200 p-4 flex flex-col items-center justify-center hover:bg-white hover:shadow-lg hover:-translate-y-1 transition duration-300 group cursor-default">
+                        <i class="fab fa-python text-4xl text-slate-400 group-hover:text-blue-500 mb-3 transition"></i>
+                        <span class="font-bold text-slate-700">Python</span>
+                    </div>
+
+                    <div
+                        class="bg-slate-50 rounded-xl border border-slate-200 p-4 flex flex-col items-center justify-center hover:bg-white hover:shadow-lg hover:-translate-y-1 transition duration-300 group cursor-default">
+                        <i class="fab fa-docker text-4xl text-slate-400 group-hover:text-blue-600 mb-3 transition"></i>
+                        <span class="font-bold text-slate-700">Docker</span>
+                    </div>
+
+                    <div
+                        class="bg-slate-50 rounded-xl border border-slate-200 p-4 flex flex-col items-center justify-center hover:bg-white hover:shadow-lg hover:-translate-y-1 transition duration-300 group cursor-default">
+                        <i
+                            class="fas fa-project-diagram text-4xl text-slate-400 group-hover:text-pink-500 mb-3 transition"></i>
+                        <span class="font-bold text-slate-700">n8n</span>
+                    </div>
+
+                    <div
+                        class="bg-slate-50 rounded-xl border border-slate-200 p-4 flex flex-col items-center justify-center hover:bg-white hover:shadow-lg hover:-translate-y-1 transition duration-300 group cursor-default">
+                        <i class="fas fa-server text-4xl text-slate-400 group-hover:text-green-600 mb-3 transition"></i>
+                        <span class="font-bold text-slate-700">Dokploy</span>
+                    </div>
+
+                    <div
+                        class="bg-slate-50 rounded-xl border border-slate-200 p-4 flex flex-col items-center justify-center hover:bg-white hover:shadow-lg hover:-translate-y-1 transition duration-300 group cursor-default">
+                        <i
+                            class="fas fa-database text-4xl text-slate-400 group-hover:text-blue-800 mb-3 transition"></i>
+                        <span class="font-bold text-slate-700">PostgreSQL</span>
+                    </div>
+
+                    <div
+                        class="bg-slate-50 rounded-xl border border-slate-200 p-4 flex flex-col items-center justify-center hover:bg-white hover:shadow-lg hover:-translate-y-1 transition duration-300 group cursor-default">
+                        <i class="fas fa-bolt text-4xl text-slate-400 group-hover:text-yellow-500 mb-3 transition"></i>
+                        <span class="font-bold text-slate-700">FastAPI</span>
+                    </div>
+
+                    <div
+                        class="bg-slate-50 rounded-xl border border-slate-200 p-4 flex flex-col items-center justify-center hover:bg-white hover:shadow-lg hover:-translate-y-1 transition duration-300 group cursor-default">
+                        <i
+                            class="fas fa-layer-group text-4xl text-slate-400 group-hover:text-emerald-500 mb-3 transition"></i>
+                        <span class="font-bold text-slate-700">Supabase</span>
+                    </div>
+
+                    <div
+                        class="bg-slate-50 rounded-xl border border-slate-200 p-4 flex flex-col items-center justify-center hover:bg-white hover:shadow-lg hover:-translate-y-1 transition duration-300 group cursor-default">
+                        <i class="fas fa-robot text-4xl text-slate-400 group-hover:text-purple-600 mb-3 transition"></i>
+                        <span class="font-bold text-slate-700">OpenAI API</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-blue-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-white mb-16">Sectores que Transformamos</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div
+                    class="bg-white p-8 rounded-xl shadow-lg border border-slate-100 text-center transform hover:-translate-y-1 transition">
+                    <div class="inline-block p-4 rounded-full bg-blue-50 text-blue-600 mb-4">
+                        <i class="fas fa-building text-3xl"></i>
+                    </div>
+                    <h4 class="font-bold text-xl mb-3 text-slate-900">Empresas de Servicios</h4>
+                    <p class="text-slate-600">Centralización de "Sistemas Operativos" completos. Desde la Venta hasta la
+                        Facturación en un solo lugar.</p>
+                </div>
+                <div
+                    class="bg-white p-8 rounded-xl shadow-lg border border-slate-100 text-center transform hover:-translate-y-1 transition">
+                    <div class="inline-block p-4 rounded-full bg-blue-50 text-blue-600 mb-4">
+                        <i class="fas fa-shopping-cart text-3xl"></i>
+                    </div>
+                    <h4 class="font-bold text-xl mb-3 text-slate-900">E-Commerce</h4>
+                    <p class="text-slate-600">Automatización de atención al cliente, recuperación de carritos y
+                        sincronización de stock.</p>
+                </div>
+                <div
+                    class="bg-white p-8 rounded-xl shadow-lg border border-slate-100 text-center transform hover:-translate-y-1 transition">
+                    <div class="inline-block p-4 rounded-full bg-blue-50 text-blue-600 mb-4">
+                        <i class="fas fa-chart-line text-3xl"></i>
+                    </div>
+                    <h4 class="font-bold text-xl mb-3 text-slate-900">Pymes en Crecimiento</h4>
+                    <p class="text-slate-600">Migración de Excel/Papel a bases de datos estructuradas y paneles de
+                        control en tiempo real.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <footer id="contacto" class="bg-white py-24 relative overflow-hidden text-center">
+        <div class="max-w-4xl mx-auto px-4 relative z-10">
+            <h2 class="text-3xl md:text-5xl font-bold text-slate-900 mb-8">¿Tu tecnología impulsa tu negocio o lo frena?
+            </h2>
+            <p class="text-slate-600 text-xl mb-12 max-w-2xl mx-auto">
+                Estamos listos para auditar tu flujo de trabajo y proponerte una arquitectura que escale contigo.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-6 mb-16">
+                <a href="https://cal.com/toxirodigital" target="_blank" rel="noopener noreferrer"
+                    data-cal-link="toxirodigital"
+                    class="bg-blue-600 text-white font-bold py-4 px-10 rounded-xl hover:bg-blue-700 transition shadow-lg w-full sm:w-auto">
+                    Agenda una Reunión
+                </a>
+                <a href="mailto:contacto@toxirodigital.cloud"
+                    class="border-2 border-slate-300 text-slate-600 font-bold py-4 px-10 rounded-xl hover:bg-slate-50 transition w-full sm:w-auto">
+                    Enviar Email
+                </a>
+            </div>
+
+            <div
+                class="border-t border-slate-200 pt-12 flex flex-col md:flex-row justify-between items-center text-slate-400 text-sm">
+                <p>© 2026 Toxiro Digital. Todos los derechos reservados.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-blue-600 transition"><i class="fab fa-linkedin text-xl"></i></a>
+                    <a href="#" class="hover:text-blue-600 transition"><i class="fab fa-github text-xl"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Typebot Init -->
+    <script type="module">
+        import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js/dist/web.js'
+
+        console.log("Typebot: Iniciando carga de módulo...");
+
+        try {
+            Typebot.initBubble({
+                typebot: "asistente-web-g443s9h",
+                apiHost: "https://botviewer.toxirodigital.cloud",
+                previewMessage: {
+                    message: "👋 ¡Hola! ¿Buscas automatizar tu negocio?",
+                    autoShowDelay: 2000,
+                },
+                theme: {
+                    button: {
+                        backgroundColor: "#004e92",
+                        iconColor: "#ffffff",
+                    },
+                    chatWindow: {
+                        backgroundColor: "#ffffff",
+                    },
+                },
+            });
+            console.log("Typebot: initBubble ejecutado.");
+        } catch (error) {
+            console.error("Typebot: Error en inicialización:", error);
+        }
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Toxiro Digital",
+      "image": "https://toxirodigital.cloud/Logo%20Azul.jpg",
+      "description": "Ingeniería de software y servidores VPS self-hosted. Automatización de procesos con n8n e IA.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "CL"
+      },
+      "priceRange": "$$$"
+    }
+    </script>
+
+    <script type="text/javascript">
+        (function (C, A, L) {
+            let p = function (a, ar) { a.q.push(ar); };
+            let d = C.document;
+            C.Cal = C.Cal || function () {
+                let cal = C.Cal;
+                let ar = arguments;
+                if (!cal.loaded) {
+                    cal.q = cal.q || [];
+                    cal.loaded = true;
+                }
+                if (ar[0] === L) {
+                    const api = function () { p(api, arguments); };
+                    const cand = d.createElement("script");
+                    cand.src = A;
+                    cand.async = true;
+                    d.head.appendChild(cand);
+                    return api;
+                }
+                p(cal, ar);
+            };
+        })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "toxirodigital", { origin: "https://cal.com" });
+
+        Cal("ui", {
+            "styles": { "branding": { "brandColor": "#004e92" } },
+            "hideEventTypeDetails": false,
+            "layout": "month_view"
+        });
+    </script>
+</body>
+
+</html>
